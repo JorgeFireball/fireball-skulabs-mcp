@@ -268,9 +268,10 @@ export function buildServer(client) {
         },
         annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
       },
-      run(({ path, body }) => {
+      run(({ path, body, method = "POST" }) => {
         if (!KNOWN_PATHS.has(path)) throw new SkuLabsError(`${path} is not a known SkuLabs endpoint. Check skulabs_list_endpoints.`, 0);
-        return client.post(path, body);
+        // SkuLabs uses PUT for inventory changes (e.g. /inventory/increase_on_hand), so honor the requested method.
+        return client.send(method, path, body);
       })
     );
   }

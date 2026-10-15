@@ -95,5 +95,6 @@ export function createClient({ token, baseUrl = "https://api.skulabs.com", fetch
   return {
     get: (path, query) => request("GET", path, { query }),
     post: (path, body) => request("POST", path, { body }),
+    send: (method, path, body) => request(method, path, { body }),
   };
 }
